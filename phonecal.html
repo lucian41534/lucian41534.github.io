@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>폰 실구매가 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            width: 250px;
+            padding: 6px;
+            margin-top: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            width: fit-content;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>폰 실구매가 계산기</h1>
+
+    <label>기존 월정액:
+        <input type="number" id="oldMonthly" />
+    </label>
+
+    <label>기존 할인 금액:
+        <input type="number" id="discount" />
+    </label>
+
+    <label>신규 월정액(6개월 유지):
+        <input type="number" id="newMonthly6" />
+    </label>
+
+    <label>선택약정(1) 또는 공시지원(0):
+        <select id="isPlan">
+            <option value="true">선택약정 (true)</option>
+            <option value="false">공시지원 (false)</option>
+        </select>
+    </label>
+
+    <label>공시지원시 보조금:
+        <input type="number" id="subsidyPublic" />
+    </label>
+
+    <label>선약시 보조금:
+        <input type="number" id="subsidyPlan" />
+    </label>
+
+    <label>기기값:
+        <input type="number" id="devicePrice" />
+    </label>
+
+    <button onclick="calculate()">계산하기</button>
+
+    <label>기존 월정액: 기존에 사용하고 있던 요금제의 1개월치의 월정액(부가세 포함하여 입력)<br/>
+     기존 할인 금액: 기존에 사용하고 있던 요금제에 할인되고 있던 1개월치의 금액<br/>
+	신규 월정액(6개월 유지): 6개월동안 유지해야 하는 요금제의 금액<br/>
+	선택약정 또는 공시지원: 폰을 선택약정으로 살것인지, 공시지원금 받고 살것인지 선택<br/>
+	공시지원시 보조금: 업자가 공시지원을 선택하면 주기로 한 보조금의 총액<br/>
+	선약시 보조금: 업자가 선택약정을 선택하면 주기로 한 보조금의 총액(요금제 할인해주는건 업자가 주는게 아님!)<br/>
+     	기기값: 해당 기기 가격<br/><br/>
+	본 계산기는 24개월동안 내가 폰을 안 바꿨으면 냈었을 통신비와, 폰을 바꿨기 때문에 24개월동안 휴대폰에 대하여 지불한 값의 차액을 계산하는 것입니다.<br/>
+	이와 같이 계산하면, 실구매가를 정확히 계산할 수 있습니다. 단, 부가서비스 등의 추가 비용은 직접 추가하여 산출해 보시길....
+    </label>
+
+    <div class="result" id="output"></div>
+
+    <script>
+        function calculate() {
+            const oldMonthly = parseInt(document.getElementById("oldMonthly").value) || 0;
+            const discount = parseInt(document.getElementById("discount").value) || 0;
+            const newMonthly6 = parseInt(document.getElementById("newMonthly6").value) || 0;
+            const isPlan = document.getElementById("isPlan").value === "true";
+            const subsidyPublic = parseInt(document.getElementById("subsidyPublic").value) || 0;
+            const subsidyPlan = parseInt(document.getElementById("subsidyPlan").value) || 0;
+            const devicePrice = parseInt(document.getElementById("devicePrice").value) || 0;
+
+            const baseCost = oldMonthly - discount;  // 기존 통신비 (C2)
+            const old24 = baseCost * 24;             // 기존 24개월 요금 (A9)
+            const plan24 = (newMonthly6 * 0.75) * 6 + baseCost * 18; // 선약시 24개월 요금 (B9)
+            const public24 = newMonthly6 * 6 + oldMonthly * 18;      // 공시시 24개월 요금 (C9)
+
+            let realPrice;
+            if (isPlan) {
+                realPrice = devicePrice + (plan24 - old24) - subsidyPlan;
+            } else {
+                realPrice = devicePrice + (public24 - old24) - subsidyPublic;
+            }
+
+            document.getElementById("output").innerHTML = `
+                📦 기존 24개월 요금: ${old24.toLocaleString()}원<br/>
+                📦 선약시 24개월 요금: ${plan24.toLocaleString()}원<br/>
+                📦 공시시 24개월 요금: ${public24.toLocaleString()}원<br/>
+                💰 실구매가: <b>${realPrice.toLocaleString()}원</b>
+            `;
+        }
+    </script>
+</body>
+</html>
