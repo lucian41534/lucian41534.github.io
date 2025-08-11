@@ -144,6 +144,7 @@
     .result .key { color: var(--muted); }
     .result .val { font-weight: 700; }
 
+    /* 안내 박스: details -> div 로 변경되며 스타일 유지 */
     .disclaimer {
       margin-top: 22px;
       font-size: 13px;
@@ -153,8 +154,12 @@
       border-radius: 12px;
       padding: 12px 14px;
     }
+    .disclaimer h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--text);
+    }
 
-    
     .ad-wrap { display: grid; place-items: center; margin: 10px 0 0; }
   </style>
 </head>
@@ -233,8 +238,9 @@ data-ad-height = "250"></ins>
       <div class="row"><div class="key">💰 실구매가</div><div class="val" id="realPriceOut">-</div></div>
     </output>
 
-    <details class="disclaimer">
-      <summary><b>안내 및 계산 기준</b></summary>
+    <!-- 드롭다운(details) 제거: 항상 펼쳐진 안내 박스 -->
+    <div class="disclaimer" role="note" aria-label="안내 및 계산 기준">
+      <h3><b>안내 및 계산 기준</b></h3>
       <div style="margin-top:8px">
         단통법 폐지에 따라 보조금을 합법적으로 받을 수 있습니다. 본 계산기는 선택약정과 공시지원 중 어떤 방식이 유리한지 비교하기 위해 제작되었으며, 참고용입니다. 실제 구매가와 상이할 수 있습니다.<br/><br/>
         • 기존 월정액: 기존 요금제의 1개월 요금(부가세 포함)<br/>
@@ -244,7 +250,7 @@ data-ad-height = "250"></ins>
         • 기기값: 기기 가격<br/><br/>
         계산식은 24개월 동안 폰을 바꾸지 않았을 때의 통신비와 실제로 24개월 동안 지불한 금액을 비교하여 실구매가를 산출합니다.
       </div>
-    </details>
+    </div>
   </div>
 
   <script>
@@ -319,4 +325,3 @@ data-ad-height = "250"></ins>
   </script>
 </body>
 </html>
-
