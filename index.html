@@ -2,19 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC515215DF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FC515215DF');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC515215DF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FC515215DF');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="naver-site-verification" content="eb628bca81147b6ccd89808db6234554a3120810" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1496769592789937" crossorigin="anonymous"></script>
   <title>휴대폰 실구매가 가격비교 계산기</title>
+  <link rel="icon" href="https://phonecal.shop/assets/favi.ico" type="image/x-icon">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="phonecal.shop">
+  <meta property="og:url" content="https://phonecal.shop/">
+  <meta property="og:title" content="휴대폰 실구매가 계산기">
+  <meta property="og:description" content="공시지원 vs 선택약정, 24개월 기준 실구매가를 한 번에 비교하세요.">
+  <meta property="og:image" content="https://phonecal.shop/assets/favi.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
   <style>
     :root {
       --bg: #f8f9fa;
@@ -26,10 +34,8 @@
       --radius: 14px;
       --shadow: 0 6px 24px rgba(0,0,0,.06);
     }
-
     * { box-sizing: border-box; }
     html, body { height: 100%; }
-
     body {
       margin: 0;
       background: var(--bg);
@@ -38,55 +44,35 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     .sub-title {
       font-family: 'Roboto', sans-serif;
-      font-size: 18px;  
-      color: #333; 
-      line-height: 1.6; 
-      margin-top: 10px;  
-      margin-bottom: 20px; 
+      font-size: 18px;
+      color: #333;
+      line-height: 1.6;
+      margin-top: 10px;
+      margin-bottom: 20px;
     }
-    
     .wrap {
       max-width: 880px;
       margin: 0 auto;
       padding: 20px clamp(16px, 4vw, 28px) 80px;
     }
-
-    header {
-      padding: 18px 0 6px;
-    }
+    header { padding: 18px 0 6px; }
     header h1 {
       margin: 0 0 8px;
       font-size: clamp(20px, 3.8vw, 28px);
       line-height: 1.25;
       letter-spacing: -0.02em;
     }
-    header p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
+    header p { margin: 0; color: var(--muted); font-size: 14px; }
     .grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 16px;
     }
-
-    @media (min-width: 640px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (min-width: 960px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
+    @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
     .field {
       background: var(--card);
       border: 1px solid var(--border);
@@ -94,30 +80,21 @@
       padding: 14px 14px 12px;
       box-shadow: var(--shadow);
     }
-
     .field label {
       display: block;
       font-weight: 700;
       font-size: 14px;
       margin: 0 0 6px;
     }
-
     .input, select {
       width: 100%;
       padding: 12px 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      font-size: 16px; /* 모바일 확대 방지 */
+      font-size: 16px;
       background: #fff;
     }
-
-    .help {
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
+    .help { margin-top: 8px; font-size: 12px; color: var(--muted); line-height: 1.45; }
     .calc-bar {
       position: sticky;
       bottom: 0;
@@ -129,8 +106,8 @@
       background: linear-gradient(180deg, rgba(248,249,250,0.0) 0%, rgba(248,249,250,1) 18%);
       backdrop-filter: saturate(1.2) blur(6px);
       border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
-
     .btn {
       appearance: none;
       border: none;
@@ -141,9 +118,8 @@
       cursor: pointer;
       box-shadow: var(--shadow);
     }
-    .btn-primary { background: var(--primary); color: #fff; flex: 1; }
+    .btn-primary { background: var(--primary); color: #fff; flex: 1 1 200px; }
     .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); }
-
     .result {
       margin-top: 18px;
       background: var(--card);
@@ -155,14 +131,10 @@
       line-height: 1.55;
       width: 100%;
     }
-
     .result h2 { margin: 0 0 10px; font-size: 18px; }
-
     .result .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 8px 0; }
     .result .key { color: var(--muted); }
     .result .val { font-weight: 700; }
-
-    /* 안내 박스: details -> div 로 변경되며 스타일 유지 */
     .disclaimer {
       margin-top: 22px;
       font-size: 14px;
@@ -172,41 +144,37 @@
       border-radius: 12px;
       padding: 12px 14px;
     }
-    .disclaimer h3 {
-      margin: 0 0 8px;
-      font-size: 14px;
-      color: var(--text);
-    }
-
+    .disclaimer h3 { margin: 0 0 8px; font-size: 14px; color: var(--text); }
     .ad-wrap { display: grid; place-items: center; margin: 10px 0 0; }
+    .linkbox {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      word-break: break-all;
+      background: #fff;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .link-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   </style>
-</head
-  <link rel="icon" href="https://phonecal.shop/assets/favi.ico" type="image/x-icon">
-  <meta property="og:type" content="website">
-<meta property="og:site_name" content="phonecal.shop">
-<meta property="og:url" content="https://phonecal.shop/">
-<meta property="og:title" content="휴대폰 실구매가 계산기">
-<meta property="og:description" content="공시지원 vs 선택약정, 24개월 기준 실구매가를 한 번에 비교하세요.">
-<meta property="og:image" content="https://phonecal.shop/assets/favi.png">
-<meta property="og:image:width" content="1024">
-<meta property="og:image:height" content="1024">
+</head>
 <body>
   <div class="wrap">
     <header>
       <h1>휴대폰 실구매가 가격비교 계산기</h1>
       <p>선택약정 vs 공시지원 가격비교 계산기(공시vs선약 계산기)</p>
-       <p class="sub-title">진짜 실구매가를 알아보세요!<br/>
-         지금까지 휴대폰을 구매하면서, 많은 분들이 6개월 유지 조건을 맞추기 위해 더 많은 요금을 지불했지만, 그 추가 비용은 실제 구매가에 포함되지 않았습니다. 또한, 공시지원을 선택하면 요금 할인을 받지 못해서 더 많은 비용을 부담하게 되는데, 이 역시 구매가에 반영되지 않았습니다. <br/>
-         이제 이 계산기를 사용해 진짜 실구매가를 확인하세요. 선택약정과 공시지원을 고려한 정확한 실제 지출을 계산해, 나만의 실구매가를 알 수 있습니다.</p>
-
+      <p class="sub-title">진짜 실구매가를 알아보세요!<br/>
+        지금까지 휴대폰을 구매하면서, 많은 분들이 6개월 유지 조건을 맞추기 위해 더 많은 요금을 지불했지만, 그 추가 비용은 실제 구매가에 포함되지 않았습니다. 또한, 공시지원을 선택하면 요금 할인을 받지 못해서 더 많은 비용을 부담하게 되는데, 이 역시 구매가에 반영되지 않았습니다. <br/>
+        이제 이 계산기를 사용해 진짜 실구매가를 확인하세요. 선택약정과 공시지원을 고려한 정확한 실제 지출을 계산해, 나만의 실구매가를 알 수 있습니다.</p>
     </header>
 
     <div class="ad-wrap">
-    <ins class="kakao_ad_area" style="display:none;"
-data-ad-unit = "DAN-aoPaKBOAD3wVCyxk"
-data-ad-width = "300"
-data-ad-height = "250"></ins>
-<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+      <ins class="kakao_ad_area" style="display:none;"
+        data-ad-unit="DAN-aoPaKBOAD3wVCyxk"
+        data-ad-width="300"
+        data-ad-height="250"></ins>
+      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
 
     <section class="grid" aria-label="입력 폼">
@@ -259,6 +227,8 @@ data-ad-height = "250"></ins>
     <div class="calc-bar" role="group" aria-label="계산 영역">
       <button class="btn btn-outline" id="resetBtn" type="button">초기화</button>
       <button class="btn btn-primary" id="calcBtn" type="button">계산하기</button>
+      <button class="btn btn-outline" id="shareBtn" type="button">링크 공유</button>
+      <button class="btn btn-outline" id="copyBtn" type="button">링크 복사</button>
     </div>
 
     <output id="output" class="result" aria-live="polite" hidden>
@@ -267,8 +237,9 @@ data-ad-height = "250"></ins>
       <div class="row"><div class="key">📦 선약시 24개월 요금</div><div class="val" id="plan24Out">-</div></div>
       <div class="row"><div class="key">📦 공시시 24개월 요금</div><div class="val" id="public24Out">-</div></div>
       <div class="row"><div class="key">💰 실구매가</div><div class="val" id="realPriceOut">-</div></div>
+      <div class="linkbox" id="linkBox" hidden></div>
     </output>
-    
+
     <div class="disclaimer" role="note" aria-label="안내 및 계산 기준">
       <h3><b>안내 및 계산 기준</b></h3>
       <div style="margin-top:8px">
@@ -303,7 +274,72 @@ data-ad-height = "250"></ins>
       el('publicWrap').style.display = isPlan ? 'none' : 'block';
     }
 
-    function calculate() {
+    // 현재 입력 상태를 URL에 직렬화
+    function buildURL(includeResults = true) {
+      const url = new URL(location.href);
+      const fields = [
+        'oldMonthly','discount','newMonthly6',
+        'subsidyPublic','subsidyPlan','devicePrice'
+      ];
+
+      fields.forEach((id) => {
+        const value = el(id).value.trim();
+        if (value) url.searchParams.set(id, value);
+        else url.searchParams.delete(id);
+      });
+      url.searchParams.set('isPlan', el('isPlan').value);
+
+      if (includeResults && !el('output').hidden) {
+        const resMap = {
+          old24: el('old24Out').textContent,
+          plan24: el('plan24Out').textContent,
+          public24: el('public24Out').textContent,
+          realPrice: el('realPriceOut').textContent
+        };
+        Object.entries(resMap).forEach(([k,v]) => {
+          if (v && v !== '-') url.searchParams.set(k, v);
+          else url.searchParams.delete(k);
+        });
+      } else {
+        ['old24','plan24','public24','realPrice'].forEach(k => url.searchParams.delete(k));
+      }
+
+      return url.toString();
+    }
+
+    // URL에서 상태 복원
+    function restoreFromURL() {
+      const params = new URLSearchParams(location.search);
+      const fields = [
+        'oldMonthly','discount','newMonthly6',
+        'subsidyPublic','subsidyPlan','devicePrice'
+      ];
+
+      fields.forEach((id) => {
+        const v = params.get(id);
+        if (v !== null) el(id).value = v;
+      });
+
+      const isPlan = params.get('isPlan');
+      if (isPlan === 'true' || isPlan === 'false') {
+        el('isPlan').value = isPlan;
+      }
+
+      toggleSubsidyFields();
+
+      // 결과가 담겨 있고 필수값이 있으면 자동 계산
+      const hasOld = params.get('oldMonthly') !== null;
+      const wantAuto = hasOld;
+      if (wantAuto) calculate(false); // URL 갱신만 하고 알림은 띄우지 않음
+    }
+
+    function updateLinkBox(urlStr) {
+      const linkBox = el('linkBox');
+      linkBox.hidden = false;
+      linkBox.textContent = urlStr;
+    }
+
+    function calculate(showAlertOnMissing = true) {
       const oldMonthly = num(el('oldMonthly').value);
       const discount = num(el('discount').value);
       const newMonthly6 = num(el('newMonthly6').value);
@@ -312,17 +348,18 @@ data-ad-height = "250"></ins>
       const subsidyPlan = num(el('subsidyPlan').value);
       const devicePrice = num(el('devicePrice').value);
 
-      // 기본 검증 (모바일에서도 친절하게)
       if (!oldMonthly || oldMonthly < 0) {
-        alert('기존 월정액을 입력해 주세요.');
-        el('oldMonthly').focus();
+        if (showAlertOnMissing) {
+          alert('기존 월정액을 입력해 주세요.');
+          el('oldMonthly').focus();
+        }
         return;
       }
 
-      const baseCost = Math.max(0, oldMonthly - discount); // 기존 통신비 (C2)
-      const old24 = baseCost * 24;                          // 기존 24개월 요금 (A9)
-      const plan24 = (newMonthly6 * 0.75) * 6 + baseCost * 18; // 선약시 24개월 요금 (B9)
-      const public24 = newMonthly6 * 6 + oldMonthly * 18;      // 공시시 24개월 요금 (C9)
+      const baseCost = Math.max(0, oldMonthly - discount);      // 기존 통신비 (C2)
+      const old24 = baseCost * 24;                              // 기존 24개월 요금 (A9)
+      const plan24 = (newMonthly6 * 0.75) * 6 + baseCost * 18;  // 선약시 24개월 요금 (B9)
+      const public24 = newMonthly6 * 6 + oldMonthly * 18;       // 공시시 24개월 요금 (C9)
 
       let realPrice;
       if (isPlan) {
@@ -336,8 +373,43 @@ data-ad-height = "250"></ins>
       el('plan24Out').textContent = krw(plan24);
       el('public24Out').textContent = krw(public24);
       el('realPriceOut').textContent = krw(realPrice);
-
       el('output').hidden = false;
+
+      // URL 최신화 + 링크 박스 표시
+      const newURL = buildURL(true);
+      history.replaceState(null, '', newURL);
+      updateLinkBox(newURL);
+      return newURL;
+    }
+
+    async function copyLink() {
+      const url = buildURL(!el('output').hidden);
+      history.replaceState(null, '', url);
+      updateLinkBox(url);
+      try {
+        await navigator.clipboard.writeText(url);
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '복사됨!';
+        setTimeout(() => btn.textContent = '링크 복사', 1200);
+      } catch (e) {
+        prompt('이 링크를 복사하세요:', url);
+      }
+    }
+
+    async function shareLink() {
+      const url = buildURL(!el('output').hidden);
+      history.replaceState(null, '', url);
+      updateLinkBox(url);
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: '휴대폰 실구매가 계산기', text: '입력값/결과를 공유합니다.', url });
+        } catch (e) {
+          // 사용자가 취소하거나 실패 — 무시
+        }
+      } else {
+        // 미지원 환경에서는 복사로 대체
+        copyLink();
+      }
     }
 
     function resetForm() {
@@ -345,50 +417,44 @@ data-ad-height = "250"></ins>
       el('isPlan').value = 'true';
       toggleSubsidyFields();
       el('output').hidden = true;
+      el('linkBox').hidden = true;
+
+      const url = new URL(location.href);
+      ['oldMonthly','discount','newMonthly6','isPlan','subsidyPublic','subsidyPlan','devicePrice','old24','plan24','public24','realPrice']
+        .forEach(k => url.searchParams.delete(k));
+      history.replaceState(null, '', url.toString());
+    }
+
+    function liveUpdateURL() {
+      const url = buildURL(!el('output').hidden);
+      history.replaceState(null, '', url);
+      updateLinkBox(url);
     }
 
     // 이벤트 바인딩
-    el('calcBtn').addEventListener('click', calculate);
+    el('calcBtn').addEventListener('click', () => calculate(true));
     el('resetBtn').addEventListener('click', resetForm);
-    el('isPlan').addEventListener('change', toggleSubsidyFields);
+    el('isPlan').addEventListener('change', () => { toggleSubsidyFields(); liveUpdateURL(); });
+    el('shareBtn').addEventListener('click', shareLink);
+    el('copyBtn').addEventListener('click', copyLink);
+
+    ['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice'].forEach(id => {
+      el(id).addEventListener('input', liveUpdateURL);
+    });
 
     // 초기 렌더
     toggleSubsidyFields();
+    restoreFromURL();
   </script>
-   <footer style="text-align:center; padding: 20px; background-color:#f1f1f1;">
+
+  <footer style="text-align:center; padding: 20px; background-color:#f1f1f1;">
     <p style="margin:0;">© <script>document.write(new Date().getFullYear());</script> phonecal. All Rights Reserved.</p>
   </footer>
   <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "1cb81019e34b420";
-if(window.wcs) {
-  wcs_do();
-}
-</script>
+  <script type="text/javascript">
+    if(!wcs_add) var wcs_add = {};
+    wcs_add["wa"] = "1cb81019e34b420";
+    if(window.wcs) { wcs_do(); }
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
