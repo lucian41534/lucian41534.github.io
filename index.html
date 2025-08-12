@@ -224,6 +224,12 @@
       </div>
     </section>
 
+    <div class="field">
+  <label for="months">요금제 유지 기간</label>
+  <input type="number" id="months" class="input" placeholder="예: 6" value="6" min="1" />
+  <p class="help">유지 기간을 입력하세요(기본: 6개월)</p>
+</div>
+
     <div class="calc-bar" role="group" aria-label="계산 영역">
       <button class="btn btn-outline" id="resetBtn" type="button">초기화</button>
       <button class="btn btn-primary" id="calcBtn" type="button">계산하기</button>
@@ -347,6 +353,7 @@
       const subsidyPublic = num(el('subsidyPublic').value);
       const subsidyPlan = num(el('subsidyPlan').value);
       const devicePrice = num(el('devicePrice').value);
+      const months = num(el('months').value);
 
       if (!oldMonthly || oldMonthly < 0) {
         if (showAlertOnMissing) {
@@ -356,10 +363,10 @@
         return;
       }
 
-      const baseCost = Math.max(0, oldMonthly - discount);      // 기존 통신비 (C2)
-      const old24 = baseCost * 24;                              // 기존 24개월 요금 (A9)
-      const plan24 = (newMonthly6 * 0.75) * 6 + baseCost * 18;  // 선약시 24개월 요금 (B9)
-      const public24 = newMonthly6 * 6 + oldMonthly * 18;       // 공시시 24개월 요금 (C9)
+      const baseCost = Math.max(0, oldMonthly - discount);      
+  const old24 = baseCost * 24;                        
+  const plan24 = (newMonthly6 * 0.75) * months + baseCost * (24 - months); 
+  const public24 = newMonthly6 * months + oldMonthly * (24 - months);      
 
       let realPrice;
       if (isPlan) {
@@ -458,6 +465,7 @@
   </script>
 </body>
 </html>
+
 
 
 
