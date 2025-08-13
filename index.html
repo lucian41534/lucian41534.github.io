@@ -130,15 +130,19 @@
       font-size: 15px;
       line-height: 1.55;
       width: 100%;
+      overflow: hidden;
     }
     .result h2 { margin: 0 0 10px; font-size: 18px; }
-    .result ul,
-.result ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-    .result .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 8px 0; }
+    .result .item { 
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 8px 0;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      --bs-gutter-x: 0;
+      --bs-gutter-y: 0;
+    }
     .result .key { color: var(--muted); }
     .result .val { font-weight: 700; }
     .disclaimer {
@@ -466,6 +470,7 @@
   </script>
 </body>
 </html>
+
 
 
 
