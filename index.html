@@ -202,13 +202,13 @@
       <div class="field" id="publicWrap">
         <label for="subsidyPublic">공시지원 보조금</label>
         <input type="number" inputmode="numeric" step="1" min="0" class="input" id="subsidyPublic" placeholder="예: 1,050,000" />
-        <p class="help">공시지원 선택 시 업자가 제공하는 총 보조금(차비까지 입력)</p>
+        <p class="help">공시지원 선택 시 업자가 제공하는 총 보조금</p>
       </div>
 
       <div class="field" id="planWrap">
         <label for="subsidyPlan">선택약정 보조금</label>
         <input type="number" inputmode="numeric" step="1" min="0" class="input" id="subsidyPlan" placeholder="예: 650,000" />
-        <p class="help">선택약정 선택 시 업자가 제공하는 총 보조금(차비까지 입력)</p>
+        <p class="help">선택약정 선택 시 업자가 제공하는 총 보조금</p>
       </div>
 
       <div class="field">
@@ -247,7 +247,7 @@
         • 기존 월정액: 기존 요금제의 1개월 요금(부가세 포함)(n개월 유지 후 이 요금제로 돌아오는 것을 가정하여 계산됨)<br/>
         • 기존 할인 금액: 기존 요금제에서 할인되던 1개월 금액<br/>
         • 신규 월정액(n개월 유지): 유지 조건 요금제 금액<br/>
-        • 공시지원/선약 보조금: 업자가 제공하는 총 보조금(요금제 할인은 업자 보조금이 아님)<br/>
+        • 공시지원/선약 보조금: 업자가 제공하는 총 보조금(업자 보조금 + 공식 보조금 + 차비 + 추가 지원금 등)(요금제 할인은 업자 보조금이 아님)<br/>
           Ex) 기기값이 1000000원이고, 시세표에 공시지원금 선택시 -60000원이라고 기재되어 있다면, 공시지원 보조금은 1060000원임.<br/>
         • 기기값: 기기 가격<br/>
         • 요금제 유지 기간: 유지 조건 요금제의 유지 요구 기간<br/><br/>
@@ -460,6 +460,7 @@
   </script>
 </body>
 </html>
+
 
 
 
