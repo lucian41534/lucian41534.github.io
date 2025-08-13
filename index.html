@@ -283,18 +283,17 @@
   </div>
 
   <script>
-    // 숫자 안전 파싱
+
     const num = (v) => {
       const n = parseInt(String(v).replace(/\D+/g, ''), 10);
       return isNaN(n) ? 0 : n;
     };
 
-    // 통화 포맷터 (KRW)
     const krw = (v) => new Intl.NumberFormat('ko-KR').format(Math.max(0, Math.round(v))) + '원';
 
     const el = (id) => document.getElementById(id);
 
-    // 현재 입력 상태를 URL에 직렬화
+
    function buildURL(includeResults = true) {
   const url = new URL(location.href);
   const fields = [
@@ -368,25 +367,25 @@ function calculate(showAlertOnMissing = true) {
     return;
   }
 
-  // 기본 요금/24개월 요금 계산
-  const baseCost = Math.max(0, oldMonthly - discount);     // 기존 통신비 (C2)
-  const old24    = baseCost * 24;                           // 기존 24개월 요금 (A9)
-  const plan24   = (newMonthly6 * 0.75) * months + baseCost * rest;// 선약 24개월 요금
-  const public24 = newMonthly6 * months + oldMonthly * rest;       // 공시 24개월 요금
 
-  // 실구매가 동시 계산
-  const realPlan   = devicePrice + (plan24   - old24) - subsidyPlan;    // 선약
-  const realPublic = devicePrice + (public24 - old24) - subsidyPublic;  // 공시
+  const baseCost = Math.max(0, oldMonthly - discount);   
+  const old24    = baseCost * 24;                          
+  const plan24   = (newMonthly6 * 0.75) * months + baseCost * rest;
+  const public24 = newMonthly6 * months + oldMonthly * rest;     
 
-  // 출력
-  const kr = (v) => krw(v); // 포맷터 그대로 사용
+
+  const realPlan   = devicePrice + (plan24   - old24) - subsidyPlan;   
+  const realPublic = devicePrice + (public24 - old24) - subsidyPublic; 
+
+
+  const kr = (v) => krw(v);
   el('old24Out').textContent     = kr(old24);
   el('plan24Out').textContent    = kr(plan24);
   el('public24Out').textContent  = kr(public24);
   el('realPlanOut').textContent  = kr(realPlan);
   el('realPublicOut').textContent= kr(realPublic);
 
-  // 비교 표
+
   const better = realPlan === realPublic
     ? '동일'
     : (realPlan < realPublic ? '선택약정이 유리' : '공시지원이 유리');
@@ -398,7 +397,7 @@ function calculate(showAlertOnMissing = true) {
 
   el('output').hidden = false;
 
-  // URL 갱신
+
   const newURL = buildURL(true);
   history.replaceState(null, '', newURL);
   updateLinkBox(newURL);
@@ -466,7 +465,7 @@ el('copyBtn').addEventListener('click', copyLink);
     el(id).addEventListener('input', liveUpdateURL);
   });
 
-// 초기 렌더
+
 restoreFromURL();
   </script>
 
@@ -481,6 +480,7 @@ restoreFromURL();
   </script>
 </body>
 </html>
+
 
 
 
