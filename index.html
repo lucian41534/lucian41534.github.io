@@ -132,6 +132,23 @@
       line-height: 1.55;
       /*width: 100%;*/
     }
+    
+.result table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.result table th,
+.result table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: right;
+}
+.result table th:first-child,
+.result table td:first-child {
+  text-align: left;
+}
     .result h2 { margin: 0 0 10px; font-size: 18px; }
     .result .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 8px 0; }
     .result .key { color: var(--muted); }
@@ -190,15 +207,7 @@
         <input type="number" inputmode="numeric" step="1" min="0" class="input" id="newMonthly6" placeholder="예: 110,000" />
         <p class="help">유지 조건인 n개월 요금제 금액</p>
       </div>
-
-      <div class="field">
-        <label for="isPlan">선택약정 또는 공시지원</label>
-        <select id="isPlan" class="input">
-          <option value="true">선택약정</option>
-          <option value="false">공시지원</option>
-        </select>
-        <p class="help">비교하려는 구매 방식을 선택</p>
-      </div>
+     
 
       <div class="field" id="publicWrap">
         <label for="subsidyPublic">공시지원 보조금</label>
@@ -232,14 +241,29 @@
       <button class="btn btn-outline" id="copyBtn" type="button">결과 링크 복사</button>
     </div>
 
-    <output id="output" class="result" aria-live="polite" hidden>
-      <h2>계산 결과</h2>
-      <div class="row"><div class="key">📦 기존 24개월 요금</div><div class="val" id="old24Out">-</div></div>
-      <div class="row"><div class="key">📦 선택약정으로 구매시 24개월 요금</div><div class="val" id="plan24Out">-</div></div>
-      <div class="row"><div class="key">📦 공시지원금으로 구매시 24개월 요금</div><div class="val" id="public24Out">-</div></div>
-      <div class="row"><div class="key">💰 실구매가</div><div class="val" id="realPriceOut">-</div></div>
-      <div class="linkbox" id="linkBox" hidden></div>
-    </output>
+   <output id="output" class="result" aria-live="polite" hidden>
+  <h2>계산 결과</h2>
+
+  <div class="row"><div class="key">📦 기존 24개월 요금</div><div class="val" id="old24Out">-</div></div>
+  <div class="row"><div class="key">📦 선택약정(선약) 24개월 요금</div><div class="val" id="plan24Out">-</div></div>
+  <div class="row"><div class="key">📦 공시지원 24개월 요금</div><div class="val" id="public24Out">-</div></div>
+
+  <div class="row"><div class="key">💰 선약 실구매가</div><div class="val" id="realPlanOut">-</div></div>
+  <div class="row"><div class="key">💰 공시 실구매가</div><div class="val" id="realPublicOut">-</div></div>
+
+  <table aria-label="선약 vs 공시 실구매가 비교">
+    <thead>
+      <tr><th>구분</th><th>실구매가</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>선택약정</td><td id="tblPlan">-</td></tr>
+      <tr><td>공시지원</td><td id="tblPublic">-</td></tr>
+      <tr><td><b>더 유리한 옵션</b></td><td id="tblBest">-</td></tr>
+    </tbody>
+  </table>
+
+  <div class="linkbox" id="linkBox" hidden></div>
+</output>
 
     <div class="disclaimer" role="note" aria-label="안내 및 계산 기준">
       <h3><b>안내 및 계산 기준</b></h3>
@@ -270,120 +294,117 @@
 
     const el = (id) => document.getElementById(id);
 
-    function toggleSubsidyFields() {
-      const isPlan = el('isPlan').value === 'true';
-      el('planWrap').style.display = isPlan ? 'block' : 'none';
-      el('publicWrap').style.display = isPlan ? 'none' : 'block';
-    }
-
     // 현재 입력 상태를 URL에 직렬화
-    function buildURL(includeResults = true) {
-      const url = new URL(location.href);
-      const fields = [
-        'oldMonthly','discount','newMonthly6',
-        'subsidyPublic','subsidyPlan','devicePrice'
-      ];
+   function buildURL(includeResults = true) {
+  const url = new URL(location.href);
+  const fields = [
+    'oldMonthly','discount','newMonthly6',
+    'subsidyPublic','subsidyPlan','devicePrice','months'
+  ];
 
-      fields.forEach((id) => {
-        const value = el(id).value.trim();
-        if (value) url.searchParams.set(id, value);
-        else url.searchParams.delete(id);
-      });
-      url.searchParams.set('isPlan', el('isPlan').value);
+  fields.forEach((id) => {
+    const value = el(id).value.trim();
+    if (value) url.searchParams.set(id, value);
+    else url.searchParams.delete(id);
+  });
 
-      if (includeResults && !el('output').hidden) {
-        const resMap = {
-          old24: el('old24Out').textContent,
-          plan24: el('plan24Out').textContent,
-          public24: el('public24Out').textContent,
-          realPrice: el('realPriceOut').textContent
-        };
-        Object.entries(resMap).forEach(([k,v]) => {
-          if (v && v !== '-') url.searchParams.set(k, v);
-          else url.searchParams.delete(k);
-        });
-      } else {
-        ['old24','plan24','public24','realPrice'].forEach(k => url.searchParams.delete(k));
-      }
+  if (includeResults && !el('output').hidden) {
+    const resMap = {
+      old24: el('old24Out').textContent,
+      plan24: el('plan24Out').textContent,
+      public24: el('public24Out').textContent,
+      realPlan: el('realPlanOut').textContent,
+      realPublic: el('realPublicOut').textContent,
+      best: el('tblBest').textContent
+    };
+    Object.entries(resMap).forEach(([k,v]) => {
+      if (v && v !== '-') url.searchParams.set(k, v);
+      else url.searchParams.delete(k);
+    });
+  } else {
+    ['old24','plan24','public24','realPlan','realPublic','best']
+      .forEach(k => url.searchParams.delete(k));
+  }
 
-      return url.toString();
-    }
+  return url.toString();
+}
 
-    // URL에서 상태 복원
-    function restoreFromURL() {
-      const params = new URLSearchParams(location.search);
-      const fields = [
-        'oldMonthly','discount','newMonthly6',
-        'subsidyPublic','subsidyPlan','devicePrice'
-      ];
+   function restoreFromURL() {
+  const params = new URLSearchParams(location.search);
+  const fields = [
+    'oldMonthly','discount','newMonthly6',
+    'subsidyPublic','subsidyPlan','devicePrice','months'
+  ];
 
-      fields.forEach((id) => {
-        const v = params.get(id);
-        if (v !== null) el(id).value = v;
-      });
+  fields.forEach((id) => {
+    const v = params.get(id);
+    if (v !== null) el(id).value = v;
+  });
 
-      const isPlan = params.get('isPlan');
-      if (isPlan === 'true' || isPlan === 'false') {
-        el('isPlan').value = isPlan;
-      }
-
-      toggleSubsidyFields();
-
-      // 결과가 담겨 있고 필수값이 있으면 자동 계산
-      const hasOld = params.get('oldMonthly') !== null;
-      const wantAuto = hasOld;
-      if (wantAuto) calculate(false); // URL 갱신만 하고 알림은 띄우지 않음
-    }
-
-    function updateLinkBox(urlStr) {
+  const hasOld = params.get('oldMonthly') !== null;
+  if (hasOld) calculate(false);
+}
+function updateLinkBox(urlStr) {
       const linkBox = el('linkBox');
       linkBox.hidden = true;
     
     }
 
-    function calculate(showAlertOnMissing = true) {
-      const oldMonthly = num(el('oldMonthly').value);
-      const discount = num(el('discount').value);
-      const newMonthly6 = num(el('newMonthly6').value);
-      const isPlan = el('isPlan').value === 'true';
-      const subsidyPublic = num(el('subsidyPublic').value);
-      const subsidyPlan = num(el('subsidyPlan').value);
-      const devicePrice = num(el('devicePrice').value);
-      const months = num(el('months').value);
+function calculate(showAlertOnMissing = true) {
+  const oldMonthly   = num(el('oldMonthly').value);
+  const discount     = num(el('discount').value);
+  const newMonthly6  = num(el('newMonthly6').value);
+  const subsidyPublic= num(el('subsidyPublic').value);
+  const subsidyPlan  = num(el('subsidyPlan').value);
+  const devicePrice  = num(el('devicePrice').value);
+  const months      = num((document.getElementById('months')||{}).value || 6) || 6;
+  const rest        = Math.max(0, 24 - months);
 
-      if (!oldMonthly || oldMonthly < 0) {
-        if (showAlertOnMissing) {
-          alert('기존 월정액을 입력해 주세요.');
-          el('oldMonthly').focus();
-        }
-        return;
-      }
-
-      const baseCost = Math.max(0, oldMonthly - discount);      
-  const old24 = baseCost * 24;                        
-  const plan24 = (newMonthly6 * 0.75) * months + baseCost * (24 - months); 
-  const public24 = newMonthly6 * months + oldMonthly * (24 - months);      
-
-      let realPrice;
-      if (isPlan) {
-        realPrice = devicePrice + (plan24 - old24) - subsidyPlan;
-      } else {
-        realPrice = devicePrice + (public24 - old24) - subsidyPublic;
-      }
-
-      // 출력
-      el('old24Out').textContent = krw(old24);
-      el('plan24Out').textContent = krw(plan24);
-      el('public24Out').textContent = krw(public24);
-      el('realPriceOut').textContent = krw(realPrice);
-      el('output').hidden = false;
-
-      // URL 최신화 + 링크 박스 표시
-      const newURL = buildURL(true);
-      history.replaceState(null, '', newURL);
-      updateLinkBox(newURL);
-      return newURL;
+  if (!oldMonthly || oldMonthly < 0) {
+    if (showAlertOnMissing) {
+      alert('기존 월정액을 입력해 주세요.');
+      el('oldMonthly').focus();
     }
+    return;
+  }
+
+  // 기본 요금/24개월 요금 계산
+  const baseCost = Math.max(0, oldMonthly - discount);     // 기존 통신비 (C2)
+  const old24    = baseCost * 24;                           // 기존 24개월 요금 (A9)
+  const plan24   = (newMonthly6 * 0.75) * months + baseCost * rest;// 선약 24개월 요금
+  const public24 = newMonthly6 * months + oldMonthly * rest;       // 공시 24개월 요금
+
+  // 실구매가 동시 계산
+  const realPlan   = devicePrice + (plan24   - old24) - subsidyPlan;    // 선약
+  const realPublic = devicePrice + (public24 - old24) - subsidyPublic;  // 공시
+
+  // 출력
+  const kr = (v) => krw(v); // 포맷터 그대로 사용
+  el('old24Out').textContent     = kr(old24);
+  el('plan24Out').textContent    = kr(plan24);
+  el('public24Out').textContent  = kr(public24);
+  el('realPlanOut').textContent  = kr(realPlan);
+  el('realPublicOut').textContent= kr(realPublic);
+
+  // 비교 표
+  const better = realPlan === realPublic
+    ? '동일'
+    : (realPlan < realPublic ? '선택약정이 유리' : '공시지원이 유리');
+  const diff = Math.abs(realPlan - realPublic);
+
+  el('tblPlan').textContent   = kr(realPlan);
+  el('tblPublic').textContent = kr(realPublic);
+  el('tblBest').textContent   = better + (diff ? ` (차이: ${kr(diff)})` : '');
+
+  el('output').hidden = false;
+
+  // URL 갱신
+  const newURL = buildURL(true);
+  history.replaceState(null, '', newURL);
+  updateLinkBox(newURL);
+  return newURL;
+}
+
 
     async function copyLink() {
       const url = buildURL(!el('output').hidden);
@@ -415,18 +436,19 @@
       }
     }
 
-    function resetForm() {
-      ['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice'].forEach(id => el(id).value = '');
-      el('isPlan').value = 'true';
-      toggleSubsidyFields();
-      el('output').hidden = true;
-      el('linkBox').hidden = true;
+  function resetForm() {
+  ['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice','months']
+    .forEach(id => el(id).value = '');
 
-      const url = new URL(location.href);
-      ['oldMonthly','discount','newMonthly6','isPlan','subsidyPublic','subsidyPlan','devicePrice','old24','plan24','public24','realPrice']
-        .forEach(k => url.searchParams.delete(k));
-      history.replaceState(null, '', url.toString());
-    }
+  el('output').hidden = true;
+  el('linkBox').hidden = true;
+
+  const url = new URL(location.href);
+  ['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice','months',
+   'old24','plan24','public24','realPlan','realPublic','best']
+    .forEach(k => url.searchParams.delete(k));
+  history.replaceState(null, '', url.toString());
+}
 
     function liveUpdateURL() {
       const url = buildURL(!el('output').hidden);
@@ -434,20 +456,18 @@
       updateLinkBox(url);
     }
 
-    // 이벤트 바인딩
-    el('calcBtn').addEventListener('click', () => calculate(true));
-    el('resetBtn').addEventListener('click', resetForm);
-    el('isPlan').addEventListener('change', () => { toggleSubsidyFields(); liveUpdateURL(); });
-    el('shareBtn').addEventListener('click', shareLink);
-    el('copyBtn').addEventListener('click', copyLink);
+   el('calcBtn').addEventListener('click', () => calculate(true));
+el('resetBtn').addEventListener('click', resetForm);
+el('shareBtn').addEventListener('click', shareLink);
+el('copyBtn').addEventListener('click', copyLink);
 
-    ['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice'].forEach(id => {
-      el(id).addEventListener('input', liveUpdateURL);
-    });
+['oldMonthly','discount','newMonthly6','subsidyPublic','subsidyPlan','devicePrice','months']
+  .forEach(id => {
+    el(id).addEventListener('input', liveUpdateURL);
+  });
 
-    // 초기 렌더
-    toggleSubsidyFields();
-    restoreFromURL();
+// 초기 렌더
+restoreFromURL();
   </script>
 
   <footer style="text-align:center; padding: 20px; background-color:#f1f1f1;">
@@ -461,6 +481,7 @@
   </script>
 </body>
 </html>
+
 
 
 
